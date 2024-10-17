@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admission Predictor</title>
+    <style>
+        .navbar a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 4px;
+
+            transition: background-color 0.3s;
+
+        }
+
+
+        .navbar a:hover {
+            background-color: #ffffff;
+
+        }
+        body {
+            
+            background-image: url('home.jpg');
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+
+        .container {
+            width: 1000px; 
+            height: 400px; 
+            background-color: #ffffff; 
+            color: rgb(0, 0, 0); 
+            padding: 20px; 
+            border-radius: 8px; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            text-align: center; 
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 15px;
+        }
+
+        input[type="number"] {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #000000;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #a11e1e;
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            width: 99%;
+        }
+
+        button:hover {
+            background-color: #ff0000;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div class="navbar">
+    <a href="http://127.0.0.1:8000">Home</a>
+    <a href="http://127.0.0.1:8000/about/">About</a>
+    <a href="http://127.0.0.1:8000/score/">Mark Entry</a>
+    <a href="http://127.0.0.1:8000/members/">Members</a>
+    
+</div>
+    <div class="container">
+        <h1>College Admission Predictor</h1>
+        <form id="admissionForm">
+            <label for="gre">GRE Score:</label>
+            <input type="number" id="gre" name="gre" min="0" max="340" required>
+
+            <label for="toefl">TOEFL Score:</label>
+            <input type="number" id="toefl" name="toefl" min="0" max="120" required>
+
+            <label for="gpa">GPA (out of 4.0):</label>
+            <input type="number" step="0.01" id="gpa" name="gpa" min="0" max="4" required>
+
+            <button type="submit">Check Eligibility</button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('admissionForm').addEventListener('submit', function (event) {
+            event.preventDefault(); 
+
+
+            const gre = parseInt(document.getElementById('gre').value);
+            const toefl = parseInt(document.getElementById('toefl').value);
+            const gpa = parseFloat(document.getElementById('gpa').value);
+
+           
+            const minGRE = 300; 
+            const minTOEFL = 90; 
+            const minGPA = 3.0; 
+
+
+            let greScore = (gre >= minGRE) ? ((gre - minGRE) / (340 - minGRE)) * 100 : 0; 
+            let toeflScore = (toefl >= minTOEFL) ? ((toefl - minTOEFL) / (120 - minTOEFL)) * 100 : 0; 
+            let gpaScore = (gpa >= minGPA) ? ((gpa - minGPA) / (4.0 - minGPA)) * 100 : 0; 
+
+
+            let averageScore = (greScore + toeflScore + gpaScore) / 3;
+
+
+            let resultText = `Your chance of admission is approximately ${averageScore.toFixed(2)}%.`;
+            document.getElementById('result').innerText = resultText;
+        });
+    </script>
+
+</body>
+
+</html>
